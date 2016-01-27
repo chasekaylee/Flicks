@@ -15,6 +15,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     var movies: [NSDictionary]?
     
+    var refreshControl: UIRefreshControl!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,8 +33,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let session = NSURLSession(
             configuration: NSURLSessionConfiguration.defaultSessionConfiguration(),
             delegate: nil,
-            delegateQueue: NSOperationQueue.mainQueue()
-        )
+            delegateQueue: NSOperationQueue.mainQueue())
         
         let task: NSURLSessionDataTask = session.dataTaskWithRequest(request,
             completionHandler: { (dataOrNil, response, error) in
@@ -47,6 +48,10 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                 }
         })
         task.resume()
+        
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(refreshControl)
 
         // Do any additional setup after loading the view.
     }
@@ -85,6 +90,13 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         print("row \(indexPath.row)")
         return cell
+    }
+    
+    func refresh(sender:AnyObject)
+    {
+        // to refresh table view.
+        self.tableView.reloadData()
+        self.refreshControl?.endRefreshing()
     }
     
 
