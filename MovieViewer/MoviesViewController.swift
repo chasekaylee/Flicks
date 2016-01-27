@@ -24,10 +24,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.delegate = self
         
         self.getMovieData()
-        
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
-        self.tableView.addSubview(refreshControl)
+        self.controlRefresh()
+    
 
         // Do any additional setup after loading the view.
     }
@@ -72,8 +70,13 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     func refresh(sender:AnyObject)
     {
         self.getMovieData()
-        self.tableView.reloadData()
         self.refreshControl?.endRefreshing()
+    }
+    
+    func controlRefresh() {
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(refreshControl)
     }
     
     func getMovieData() {
