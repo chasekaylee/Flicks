@@ -4,7 +4,8 @@
 use_frameworks!
 
 target 'MovieViewer' do
-    pod 'AFNetworking'
-    pod install 'SwiftLoader'
+    pod 'AFNetworking', '~> 2.0'
+    pod 'MBProgressHUD'
+    inhibit_all_warnings!
 end
 

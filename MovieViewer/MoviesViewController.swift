@@ -8,14 +8,16 @@
 
 import UIKit
 import AFNetworking
+import MBProgressHUD
+
 
 class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     
     var movies: [NSDictionary]?
-    
     var refreshControl: UIRefreshControl!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,11 +25,13 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.dataSource = self
         tableView.delegate = self
         
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(refreshControl)
+        
         self.getMovieData()
-        self.controlRefresh()
+        self.refresh(refreshControl)
     
-
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -67,17 +71,11 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     // to refresh table view and refresh movie data
-    func refresh(sender:AnyObject)
+    func refresh(refreshControl: UIRefreshControl)
     {
-        self.getMovieData()
         self.refreshControl?.endRefreshing()
     }
     
-    func controlRefresh() {
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
-        self.tableView.addSubview(refreshControl)
-    }
     
     // accesses the movie api and fetches data
     func getMovieData() {
@@ -93,8 +91,15 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
             delegate: nil,
             delegateQueue: NSOperationQueue.mainQueue())
         
+        // Display HUD right before the request is made
+        MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+    
         let task: NSURLSessionDataTask = session.dataTaskWithRequest(request,
             completionHandler: { (dataOrNil, response, error) in
+                
+                // Hide HUD once the network request comes back (must be done on main UI thread)
+                MBProgressHUD.hideHUDForView(self.view, animated: true)
+                
                 if let data = dataOrNil {
                     if let responseDictionary = try! NSJSONSerialization.JSONObjectWithData(
                         data, options:[]) as? NSDictionary {
@@ -107,6 +112,10 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         })
         task.resume()
     }
+    
+    
+    
+    
 
     /*
     // MARK: - Navigation
