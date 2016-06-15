@@ -6,14 +6,10 @@ Time spent: 3 hours spent in total
 
 ## User Stories
 
-The following **required** functionality is complete:
-
 - [X] User can view a list of movies currently playing in theaters from The Movie Database.
 - [X] Poster images are loaded using the UIImageView category in the AFNetworking library.
 - [X] User sees a loading state while waiting for the movies API.
 - [X] User can pull to refresh the movie list.
-
-The following **optional** features are implemented:
 
 - [ ] User sees an error message when there's a networking error.
 - [ ] Movies are displayed using a CollectionView instead of a TableView.
@@ -62,25 +58,15 @@ Time spent: 3 hours spent in total
 
 ## User Stories
 
-The following **required** functionality is completed:
 
 - [X] User can view movie details by tapping on a cell.
 - [X] User can select from a tab bar for either **Now Playing** or **Top Rated** movies.
 - [X] Customize the selection effect of the cell.
 
-The following **optional** features are implemented:
-
 - [ ] For the large poster, load the low resolution image first and then switch to the high resolution image when complete.
 - [X] Customize the navigation bar.
 
-The following **additional** features are implemented:
-
 - [ ] List anything else that you can get done to improve the app functionality!
-
-Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
-
-1. Implementation of search bar
-2. Collection View
 
 ## Video Walkthrough 
 
